@@ -2,6 +2,29 @@
 
 <ul>
   <li *ngFor="let todo of todos">
-    {{ todo }} <button>Concluir</button> | <button>Remover</button>
+    {{ todo.id }}.{{ todo.title }} |
+    <button *ngIf="!todo.done" (click)="markAsDone(todo)">Concluir</button> |
+    <button *ngIf="todo.done" (click)="markAsUndone(todo)">Refazer</button> |
+    <button (click)="remove(todo)">Remover</button>
   </li>
 </ul>
+
+<form [formGroup]="form">
+  <fieldset>
+    <label>Tarefa</label>
+    <input
+      type="text"
+      placeholder="Titulo da tarefa"
+      maxlength="60"
+      formControlName="title"
+    />
+    <!-- o form.invalid e form.pristine e para validar o form inteiro e nao apenas um campo
+     encontrar solucao depois pois esta dando erro
+     ao colocar o form.controls.title.invalid nao esta funcionando.
+    -->
+    <small *ngIf="form.invalid && !form.pristine">
+      Este campo deve ter entre 3 e 60 caracteres
+    </small>
+    <button>Salvar</button>
+  </fieldset>
+</form>
